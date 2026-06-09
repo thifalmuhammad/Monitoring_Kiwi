@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-gray-50 font-sans text-gray-800">
+<body class="bg-[#09090b] font-sans text-[#fafafa]">
 
     <div class="flex h-screen overflow-hidden">
         
@@ -32,12 +32,12 @@
 
         <div class="flex-1 flex flex-col overflow-y-auto">
             
-            <header class="bg-white shadow-sm border-b border-gray-200 p-6 flex justify-between items-center px-8">
+            <header class="bg-[#121214] shadow-sm border-b border-neutral-800/60 p-6 flex justify-between items-center px-8">
                 <div class="flex items-center space-x-4">
                     <img src="assets/logo.png" alt="Logo" class="h-14 w-14 object-contain">
                     <div>
-                        <h1 class="text-2xl font-semibold text-gray-900">Monitoring Kemanisan & Brix</h1>
-                        <p class="text-gray-500 text-sm">Kualitas Buah Kiwi</p>
+                        <h1 class="text-2xl font-semibold text-white">Monitoring Kemanisan & Brix</h1>
+                        <p class="text-neutral-400 text-sm">Kualitas Buah Kiwi</p>
                     </div>
                 </div>
                 <div class="flex items-center space-x-2 text-sm bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full font-medium">
@@ -50,25 +50,25 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     
-                    <div class="bg-white p-6 rounded-2xl shadow-xs border border-gray-200 flex items-center justify-between">
+                    <div class="bg-[#121214] p-6 rounded-2xl shadow-xs border border-neutral-800/60 flex items-center justify-between">
                         <div class="space-y-2">
-                            <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Tingkat kemanisan</p>
-                            <p id="current-ripeness" class="text-3xl font-bold text-slate-900">Manis (Ripe)</p>
-                            <p class="text-xs text-gray-400">Berdasarkan klasifikasi optik/warna</p>
+                            <p class="text-sm font-medium text-neutral-400 uppercase tracking-wider">Tingkat kemanisan</p>
+                            <p id="current-ripeness" class="text-3xl font-bold text-white">Manis (Ripe)</p>
+                            <p class="text-xs text-neutral-500">Berdasarkan klasifikasi optik/warna</p>
                         </div>
                         <div class="p-4 bg-amber-50 text-amber-500 rounded-2xl">
                             <i data-lucide="activity" class="w-10 h-10"></i>
                         </div>
                     </div>
 
-                    <div class="bg-white p-6 rounded-2xl shadow-xs border border-gray-200 flex items-center justify-between">
+                    <div class="bg-[#121214] p-6 rounded-2xl shadow-xs border border-neutral-800/60 flex items-center justify-between">
                         <div class="space-y-2">
-                            <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Kadar Gula (Brix)</p>
+                            <p class="text-sm font-medium text-neutral-400 uppercase tracking-wider">Kadar Gula (Brix)</p>
                             <div class="flex items-baseline space-x-1">
-                                <p id="current-brix" class="text-4xl font-extrabold text-slate-900">14.2</p>
-                                <span class="text-lg font-semibold text-gray-500">°Bx</span>
+                                <p id="current-brix" class="text-4xl font-extrabold text-white">14.2</p>
+                                <span class="text-lg font-semibold text-neutral-400">°Bx</span>
                             </div>
-                            <p class="text-xs text-gray-400">Estimasi kandungan padatan terlarut</p>
+                            <p class="text-xs text-neutral-500">Estimasi kandungan padatan terlarut</p>
                         </div>
                         <div class="p-4 bg-emerald-50 text-emerald-500 rounded-2xl">
                             <i data-lucide="droplet" class="w-10 h-10"></i>
@@ -85,45 +85,45 @@
                     </button>
                 </div> -->
 
-                <div class="bg-white rounded-2xl shadow-xs border border-gray-200 overflow-hidden">
-                    <div class="p-6 border-b border-gray-200 flex justify-between items-center bg-slate-50">
-                        <h3 class="text-lg font-bold text-gray-900 flex items-center space-x-2">                            <i data-lucide="pie-chart" class="w-5 h-5 text-gray-500"></i>
+                <div class="bg-[#121214] rounded-2xl shadow-xs border border-neutral-800/60 overflow-hidden">
+                    <div class="p-6 border-b border-neutral-800/60 flex justify-between items-center bg-[#0f0f11]">
+                        <h3 class="text-lg font-bold text-white flex items-center space-x-2">                            <i data-lucide="pie-chart" class="w-5 h-5 text-neutral-400"></i>
                             <span>Ringkasan Jumlah Buah</span>
                         </h3>
-                        <span class="text-xs text-gray-500">Berdasarkan tingkat kemanisan</span>
+                        <span class="text-xs text-neutral-500">Berdasarkan tingkat kemanisan</span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="bg-gray-100 text-gray-600 uppercase text-xs font-semibold tracking-wider border-b border-gray-200">
+                                <tr class="bg-[#0f0f11] text-neutral-400 uppercase text-xs font-semibold tracking-wider border-b border-neutral-800/60">
                                     <th class="py-4 px-6">Tingkat kemanisan</th>
                                     <th class="py-4 px-6">Jumlah Buah</th>
                                 </tr>
                             </thead>
-                            <tbody id="summary-table-body" class="divide-y divide-gray-100 text-sm text-gray-700">
+                            <tbody id="summary-table-body" class="divide-y divide-neutral-800/60 text-sm text-neutral-300">
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-xs border border-gray-200 overflow-hidden">
-                    <div class="p-6 border-b border-gray-200 flex justify-between items-center bg-slate-50">
-                        <h3 class="text-lg font-bold text-gray-900 flex items-center space-x-2">                            <i data-lucide="list" class="w-5 h-5 text-gray-500"></i>
+                <div class="bg-[#121214] rounded-2xl shadow-xs border border-neutral-800/60 overflow-hidden">
+                    <div class="p-6 border-b border-neutral-800/60 flex justify-between items-center bg-[#0f0f11]">
+                        <h3 class="text-lg font-bold text-white flex items-center space-x-2">                            <i data-lucide="list" class="w-5 h-5 text-neutral-400"></i>
                             <span>Tabel Riwayat Pengukuran</span>
                         </h3>
-                        <span class="text-xs text-gray-500">Menampilkan data terbaru</span>
+                        <span class="text-xs text-neutral-500">Menampilkan data terbaru</span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="bg-gray-100 text-gray-600 uppercase text-xs font-semibold tracking-wider border-b border-gray-200">
+                                <tr class="bg-[#0f0f11] text-neutral-400 uppercase text-xs font-semibold tracking-wider border-b border-neutral-800/60">
                                     <th class="py-4 px-6">No</th>
                                     <th class="py-4 px-6">Waktu Pengukuran</th>
                                     <th class="py-4 px-6">Tingkat Kemanisan</th>
                                     <th class="py-4 px-6">Nilai Brix (°Bx)</th>
                                 </tr>
                             </thead>
-                            <tbody id="data-table-body" class="divide-y divide-gray-100 text-sm text-gray-700">
+                            <tbody id="data-table-body" class="divide-y divide-neutral-800/60 text-sm text-neutral-300">
                                 </tbody>
                         </table>
                     </div>
@@ -184,17 +184,17 @@ function renderSummaryTable() {
 
     // Kategori kemanisan baru
     const ripenessCategories = [
-        { name: "Sangat Asam", key: "Sangat Asam", color: "bg-red-100 text-red-700" },
-        { name: "Asam", key: "Asam", color: "bg-yellow-100 text-yellow-700" },
-        { name: "Manis", key: "Manis", color: "bg-emerald-100 text-emerald-700" },
-        { name: "Sangat Manis", key: "Sangat Manis", color: "bg-orange-100 text-orange-700" }
+        { name: "Sangat Asam", key: "Sangat Asam", color: "bg-red-950 text-red-400" },
+        { name: "Asam", key: "Asam", color: "bg-yellow-950 text-yellow-400" },
+        { name: "Manis", key: "Manis", color: "bg-emerald-950 text-emerald-400" },
+        { name: "Sangat Manis", key: "Sangat Manis", color: "bg-orange-950 text-orange-400" }
     ];
 
     ripenessCategories.forEach((category) => {
         const count = databaseSimulasi.filter(data => data.kemanisan === category.key).length;
         const row = `
-            <tr class="hover:bg-gray-50 transition duration-150">
-                <td class="py-4 px-6 font-semibold text-gray-900">${category.name}</td>
+            <tr class="hover:bg-neutral-800/30 transition duration-150">
+                <td class="py-4 px-6 font-semibold text-white">${category.name}</td>
                 <td class="py-4 px-6">
                     <span class="inline-block px-3 py-1 text-sm font-bold rounded-full ${category.color}">${count}</span>
                 </td>
@@ -211,11 +211,11 @@ function renderTable() {
     [...databaseSimulasi].reverse().forEach((data, index) => {
         const timestamp = formatTimestamp(data.timestamp);
         const row = `
-            <tr class="hover:bg-gray-50 transition duration-150">
-                <td class="py-4 px-6 font-medium text-gray-900">${databaseSimulasi.length - index}</td>
-                <td class="py-4 px-6 text-gray-500">${timestamp}</td>
-                <td class="py-4 px-6 font-semibold">${data.kemanisan}</td>
-                <td class="py-4 px-6 text-emerald-600 font-bold">${data.brix} °Bx</td>
+            <tr class="hover:bg-neutral-800/30 transition duration-150">
+                <td class="py-4 px-6 font-medium text-white">${databaseSimulasi.length - index}</td>
+                <td class="py-4 px-6 text-neutral-400">${timestamp}</td>
+                <td class="py-4 px-6 font-semibold text-neutral-300">${data.kemanisan}</td>
+                <td class="py-4 px-6 text-emerald-400 font-bold">${data.brix} °Bx</td>
             </tr>
         `;
 
