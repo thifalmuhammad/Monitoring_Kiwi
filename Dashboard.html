@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fruit Quality Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- <div class="w-64 bg-slate-900 text-white p-6 space-y-6 hidden md:block">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="layout-dashboard" class="w-8 h-8 text-emerald-400"></i>
+                <span class="text-xl font-bold tracking-wider">AgroMonitor</span>
+            </div>
+            <nav class="space-y-2">
+                <a href="#" class="flex items-center space-x-3 bg-emerald-600 text-white p-3 rounded-lg font-medium transition">
+                    <i data-lucide="gauge" class="w-5 h-5"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 text-slate-400 hover:bg-slate-800 hover:text-white p-3 rounded-lg font-medium transition">
+                    <i data-lucide="database" class="w-5 h-5"></i>
+                    <span>Data Log</span>
+                </a>
+            </nav>
+        </div> -->
+
+        <div class="flex-1 flex flex-col overflow-y-auto">
+            
+            <header class="bg-white shadow-sm border-b border-gray-200 p-6 flex justify-between items-center px-8">
+                <div class="flex items-center space-x-4">
+                    <img src="assets/logo.png" alt="Logo" class="h-14 w-14 object-contain">
+                    <div>
+                        <h1 class="text-2xl font-semibold text-gray-900">Monitoring Kemanisan & Brix</h1>
+                        <p class="text-gray-500 text-sm">Kualitas Buah Kiwi</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2 text-sm bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full font-medium">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Sistem Siap</span>
+                </div>
+            </header>
+
+            <main class="p-8 space-y-8 max-w-7xl w-full mx-auto">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <div class="bg-white p-6 rounded-2xl shadow-xs border border-gray-200 flex items-center justify-between">
+                        <div class="space-y-2">
+                            <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Tingkat kemanisan</p>
+                            <p id="current-ripeness" class="text-3xl font-bold text-slate-900">Manis (Ripe)</p>
+                            <p class="text-xs text-gray-400">Berdasarkan klasifikasi optik/warna</p>
+                        </div>
+                        <div class="p-4 bg-amber-50 text-amber-500 rounded-2xl">
+                            <i data-lucide="activity" class="w-10 h-10"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-xs border border-gray-200 flex items-center justify-between">
+                        <div class="space-y-2">
+                            <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Kadar Gula (Brix)</p>
+                            <div class="flex items-baseline space-x-1">
+                                <p id="current-brix" class="text-4xl font-extrabold text-slate-900">14.2</p>
+                                <span class="text-lg font-semibold text-gray-500">°Bx</span>
+                            </div>
+                            <p class="text-xs text-gray-400">Estimasi kandungan padatan terlarut</p>
+                        </div>
+                        <div class="p-4 bg-emerald-50 text-emerald-500 rounded-2xl">
+                            <i data-lucide="droplet" class="w-10 h-10"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- <div class="bg-white p-4 rounded-xl shadow-xs border border-gray-200 flex justify-between items-center">
+                    <span class="text-sm text-gray-600">Gunakan tombol ini untuk mensimulasikan data masuk sebelum Arduino terhubung:</span>
+                    <button onclick="generateDataSimulasi()" class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold py-2 px-4 rounded-lg transition flex items-center space-x-2 cursor-pointer">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                        <span>Ambil Sampel Data Baru</span>
+                    </button>
+                </div> -->
+
+                <div class="bg-white rounded-2xl shadow-xs border border-gray-200 overflow-hidden">
+                    <div class="p-6 border-b border-gray-200 flex justify-between items-center bg-slate-50">
+                        <h3 class="text-lg font-bold text-gray-900 flex items-center space-x-2">                            <i data-lucide="pie-chart" class="w-5 h-5 text-gray-500"></i>
+                            <span>Ringkasan Jumlah Buah</span>
+                        </h3>
+                        <span class="text-xs text-gray-500">Berdasarkan tingkat kemanisan</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-100 text-gray-600 uppercase text-xs font-semibold tracking-wider border-b border-gray-200">
+                                    <th class="py-4 px-6">Tingkat kemanisan</th>
+                                    <th class="py-4 px-6">Jumlah Buah</th>
+                                </tr>
+                            </thead>
+                            <tbody id="summary-table-body" class="divide-y divide-gray-100 text-sm text-gray-700">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-xs border border-gray-200 overflow-hidden">
+                    <div class="p-6 border-b border-gray-200 flex justify-between items-center bg-slate-50">
+                        <h3 class="text-lg font-bold text-gray-900 flex items-center space-x-2">                            <i data-lucide="list" class="w-5 h-5 text-gray-500"></i>
+                            <span>Tabel Riwayat Pengukuran</span>
+                        </h3>
+                        <span class="text-xs text-gray-500">Menampilkan data terbaru</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-100 text-gray-600 uppercase text-xs font-semibold tracking-wider border-b border-gray-200">
+                                    <th class="py-4 px-6">No</th>
+                                    <th class="py-4 px-6">Waktu Pengukuran</th>
+                                    <th class="py-4 px-6">Tingkat Kemanisan</th>
+                                    <th class="py-4 px-6">Nilai Brix (°Bx)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="data-table-body" class="divide-y divide-gray-100 text-sm text-gray-700">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBsVCe_y_9Z0cdSN7GqPoh-seKL_Iqo-8o",
+    authDomain: "monitoring-buah-kiwi.firebaseapp.com",
+    databaseURL: "https://monitoring-buah-kiwi-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "monitoring-buah-kiwi",
+    storageBucket: "monitoring-buah-kiwi.firebasestorage.app",
+    messagingSenderId: "791806977133",
+    appId: "1:791806977133:web:f0d7243295762eee28cb64"
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+let databaseSimulasi = [];
+
+function formatTimestamp(timestamp) {
+    if (!timestamp) {
+        const now = new Date();
+        return now.getFullYear() + '-' + 
+            String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+            String(now.getDate()).padStart(2, '0') + ' ' + 
+            String(now.getHours()).padStart(2, '0') + ':' + 
+            String(now.getMinutes()).padStart(2, '0') + ':' + 
+            String(now.getSeconds()).padStart(2, '0');
+    }
+    
+    // Jika timestamp adalah angka (unix timestamp dalam ms)
+    if (typeof timestamp === 'number') {
+        const date = new Date(timestamp);
+        return date.getFullYear() + '-' + 
+            String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+            String(date.getDate()).padStart(2, '0') + ' ' + 
+            String(date.getHours()).padStart(2, '0') + ':' + 
+            String(date.getMinutes()).padStart(2, '0') + ':' + 
+            String(date.getSeconds()).padStart(2, '0');
+    }
+    
+    // Jika timestamp adalah string, return apa adanya
+    return timestamp;
+}
+
+function renderSummaryTable() {
+    const summaryBody = document.getElementById('summary-table-body');
+    summaryBody.innerHTML = '';
+
+    // Kategori kemanisan baru
+    const ripenessCategories = [
+        { name: "Sangat Asam", key: "Sangat Asam", color: "bg-red-100 text-red-700" },
+        { name: "Asam", key: "Asam", color: "bg-yellow-100 text-yellow-700" },
+        { name: "Manis", key: "Manis", color: "bg-emerald-100 text-emerald-700" },
+        { name: "Sangat Manis", key: "Sangat Manis", color: "bg-orange-100 text-orange-700" }
+    ];
+
+    ripenessCategories.forEach((category) => {
+        const count = databaseSimulasi.filter(data => data.kemanisan === category.key).length;
+        const row = `
+            <tr class="hover:bg-gray-50 transition duration-150">
+                <td class="py-4 px-6 font-semibold text-gray-900">${category.name}</td>
+                <td class="py-4 px-6">
+                    <span class="inline-block px-3 py-1 text-sm font-bold rounded-full ${category.color}">${count}</span>
+                </td>
+            </tr>
+        `;
+        summaryBody.insertAdjacentHTML('beforeend', row);
+    });
+}
+
+function renderTable() {
+    const tableBody = document.getElementById('data-table-body');
+    tableBody.innerHTML = '';
+
+    [...databaseSimulasi].reverse().forEach((data, index) => {
+        const timestamp = formatTimestamp(data.timestamp);
+        const row = `
+            <tr class="hover:bg-gray-50 transition duration-150">
+                <td class="py-4 px-6 font-medium text-gray-900">${databaseSimulasi.length - index}</td>
+                <td class="py-4 px-6 text-gray-500">${timestamp}</td>
+                <td class="py-4 px-6 font-semibold">${data.kemanisan}</td>
+                <td class="py-4 px-6 text-emerald-600 font-bold">${data.brix} °Bx</td>
+            </tr>
+        `;
+
+        tableBody.insertAdjacentHTML('beforeend', row);
+    });
+
+    // Update ringkasan
+    renderSummaryTable();
+}
+
+const dbRef = ref(database, "riwayat_buah");
+
+let lastDataLength = 0;
+
+onValue(dbRef, (snapshot) => {
+
+    console.log("DATA FIREBASE :", snapshot.val());
+
+    const dataFirebase = snapshot.val();
+
+    databaseSimulasi = [];
+
+    if (dataFirebase) {
+
+        Object.keys(dataFirebase).forEach((key) => {
+            const data = dataFirebase[key];
+            
+            // Jika data tidak memiliki timestamp atau timestamp tidak valid, gunakan waktu saat ini
+            if (!data.timestamp || typeof data.timestamp !== 'number') {
+                data.timestamp = new Date().getTime();
+            }
+            
+            databaseSimulasi.push(data);
+        });
+
+        const terbaru = databaseSimulasi[databaseSimulasi.length - 1];
+
+        document.getElementById("current-brix").innerText =
+            terbaru.brix ?? "-";
+
+        document.getElementById("current-ripeness").innerText =
+            terbaru.kemanisan ?? "-";
+    }
+
+    renderTable();
+    renderSummaryTable();
+});
+</script>
+</body>
+</html>
